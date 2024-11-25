@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WeatherForeCastService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -18,7 +18,7 @@ namespace WeatherForeCastService.Controllers
             this._logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet("details")]
         public IEnumerable<WeatherForecast> Get()
         {
             _logger.LogInformation($"Prateek : The Get weather service is called at {DateTime.UtcNow}");
