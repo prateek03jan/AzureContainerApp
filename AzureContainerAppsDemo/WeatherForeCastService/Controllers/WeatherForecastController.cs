@@ -6,8 +6,13 @@ namespace WeatherForeCastService.Controllers
     [Route("/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly string[] Cities = new[]
         {
+            "Kolkata", "Bengaluru", "Chennai", "Delhi", "Shrirampur", "Ahmedabad"
+        };
+
+        private static readonly string[] Summaries = new[]
+                {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
@@ -18,10 +23,31 @@ namespace WeatherForeCastService.Controllers
             this._logger = logger;
         }
 
-        [HttpGet("details")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("cities")]
+        public IEnumerable<string> GetCities()
         {
-            _logger.LogInformation($"Prateek : The Get weather service is called at {DateTime.UtcNow}");
+            _logger.LogInformation($"Prateek : {nameof(GetCities)} called at {DateTime.UtcNow}");
+            return Cities;
+        }
+
+        [HttpGet("error")]
+        public string GetError()
+        {
+            try
+            {
+                throw new Exception("An exception is raised");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Prateek : Error Raised at {nameof(GetError)} {DateTime.UtcNow} {ex.Message} {ex.StackTrace}");
+                throw;
+            }
+        }
+
+        [HttpGet("details")]
+        public IEnumerable<WeatherForecast> GetWeatherForecast()
+        {
+            _logger.LogInformation($"Prateek : {nameof(GetWeatherForecast)} called at {DateTime.UtcNow}");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
